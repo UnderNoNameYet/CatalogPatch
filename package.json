@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "test": "node test.mjs",
-    "qa": "node qa-app.mjs"
+    "qa:app": "node qa-app.mjs",
+    "qa:site": "node qa-site.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.55.0"
   }
 }
