@@ -1,0 +1,5 @@
+Product Name;SKU;Retail Price;Quantity;Image URL;Visible
+Broken Chair;CHAIR-01;not-a-price;4;http://example.com/chair.jpg;yes
+Duplicate Chair;CHAIR-01;$99.00;-3;https://example.com/chair-2.jpg;yes
+Scientific SKU;1.23E+12;€149,90;2;;no
+;NO-TITLE;$10.00;1;;yes

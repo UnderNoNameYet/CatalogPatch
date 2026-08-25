@@ -1,0 +1,4 @@
+ID,Type,SKU,Name,Published,Regular price,Sale price,Categories,Tags,Images,Weight (kg),Attribute 1 name,Attribute 1 value(s),Parent,Description,Stock
+101,variable,LINEN,Linen Shirt,1,39.99,,Apparel > Shirts,summer,"https://example.com/linen-front.jpg, https://example.com/linen-back.jpg",0.25,Size,"Small, Medium",,"<p>Relaxed linen shirt.</p>",
+102,variation,LINEN-S,Linen Shirt - Small,1,39.99,34.99,Apparel > Shirts,summer,https://example.com/linen-front.jpg,0.25,Size,Small,id:101,,12
+103,variation,LINEN-M,Linen Shirt - Medium,1,39.99,34.99,Apparel > Shirts,summer,https://example.com/linen-front.jpg,0.25,Size,Medium,id:101,,8
