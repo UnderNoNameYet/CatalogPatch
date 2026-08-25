@@ -1,0 +1,14 @@
+{
+  "name": "catalogpatch",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node test.mjs",
+    "qa:app": "node qa-app.mjs",
+    "qa:site": "node qa-site.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.55.0"
+  }
+}

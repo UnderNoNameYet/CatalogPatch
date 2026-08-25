@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://undernonameyet.github.io/CatalogPatch/sitemap.xml

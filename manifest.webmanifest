@@ -1,0 +1,11 @@
+{
+  "name": "CatalogPatch",
+  "short_name": "CatalogPatch",
+  "description": "Local product CSV conversion and Shopify import preflight.",
+  "start_url": "./app.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2efe6",
+  "theme_color": "#11130f",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

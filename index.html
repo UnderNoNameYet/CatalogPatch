@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f2efe6">
+  <meta name="description" content="Convert WooCommerce, Squarespace, Square, and generic product exports into a reviewed Shopify-ready CSV. Local browser processing, no store access.">
+  <title>CatalogPatch — Repair product CSV migrations before Shopify import</title>
+  <link rel="canonical" href="https://undernonameyet.github.io/CatalogPatch/">
+  <link rel="icon" href="icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <div class="site-meter"><i id="siteMeter"></i></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="CatalogPatch home"><span class="brand-mark"><b>C</b><i></i></span><strong>CatalogPatch</strong></a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="siteNav"><span></span><span></span><span></span><b>Menu</b></button>
+    <nav id="siteNav"><a href="#method">How it works</a><a href="docs.html">CSV reference</a><a href="#pricing">Pricing</a></nav>
+    <a class="header-cta" href="app.html"><span>OPEN WORKBENCH</span><b>↗</b></a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="micro">PRODUCT CATALOG MIGRATION / WITHOUT STORE ACCESS</p>
+        <h1>The catalog moved.<br><em>The columns did not.</em></h1>
+        <p class="lede">Turn WooCommerce, Squarespace, Square, or unfamiliar product exports into a Shopify-ready worksheet—with field mapping, row-level diagnostics, and no catalog upload.</p>
+        <div class="hero-actions"><a class="action dark" href="app.html">Run a free preflight <span>→</span></a><a class="action line" href="app.html?sample=problem-file">Open the broken fixture <span>↗</span></a></div>
+        <dl class="hero-register"><div><dt>FILES</dt><dd>Stay in this browser tab</dd></div><div><dt>OUTPUT</dt><dd>Shopify product CSV</dd></div><div><dt>STORE LOGIN</dt><dd>Not required</dd></div></dl>
+      </div>
+      <div class="hero-machine" aria-label="Catalog conversion pipeline">
+        <header><span>CONVERSION RUN / DEMO</span><b id="machineSource">WOOCOMMERCE</b></header>
+        <div class="source-tabs"><button class="active" type="button" data-source-demo="woocommerce">WOO</button><button type="button" data-source-demo="squarespace">SQUARESPACE</button><button type="button" data-source-demo="square">SQUARE</button></div>
+        <div class="machine-grid">
+          <section class="raw-sheet"><span>SOURCE EXPORT</span><code id="rawHeaders">Type, SKU, Name, Regular price</code><div><i></i><b>variable</b><b>LINEN-S</b><b>Linen Shirt</b><b>$39.99</b></div><div><i></i><b>variation</b><b>LINEN-M</b><b>—</b><b>$39.99</b></div></section>
+          <div class="patch-core"><span>PATCH</span><b>18</b><small>FIELDS MAPPED</small><i></i></div>
+          <section class="safe-sheet"><span>SHOPIFY WORKSHEET</span><code>Handle, Title, Variant SKU, Variant Price</code><div><i></i><b>linen-shirt</b><b>Linen Shirt</b><b id="demoSku">LINEN-S</b><b id="demoPrice">39.99</b></div><footer><strong>0</strong> CRITICAL <strong>1</strong> NORMALIZED</footer></section>
+        </div>
+        <footer><span><i></i>LOCAL SESSION</span><b>SHOPIFY PREVIEW STILL REQUIRED</b></footer>
+      </div>
+    </section>
+
+    <section class="trust-rail"><span>DETERMINISTIC TRANSFORMATION</span><span>NO SHOPIFY ADMIN PERMISSIONS</span><span>ROW-LEVEL FINDING REGISTER</span><span>DRAFT-FIRST EXPORT</span></section>
+
+    <section class="problem-section">
+      <div class="section-tag"><span>01</span><b>THE FAILURE</b></div>
+      <div class="problem-copy"><p class="micro">WHY IMPORTS BREAK</p><h2>Two valid catalogs.<br>Two incompatible assumptions.</h2><p>Platforms disagree about headers, variant grouping, price formats, image fields, booleans, and weight units. A spreadsheet may look correct while still creating duplicate products, blank prices, or broken variants.</p></div>
+      <div class="failure-ledger"><header><span>SOURCE VALUE</span><span>SHOPIFY EXPECTATION</span><span>PATCH</span></header><div><code>€149,90</code><b>numeric decimal</b><em>149.90</em></div><div><code>Weight (kg): 0.25</code><b>variant grams</b><em>250</em></div><div><code>Attribute 1: Size</code><b>option name + value</b><em>GROUPED</em></div><div><code>1.23E+12</code><b>literal SKU text</b><em class="stop">STOP</em></div></div>
+    </section>
+
+    <section class="buyer-section"><div><p class="micro">THE EXACT BUYER</p><h2>Built for the migration that is already blocking launch.</h2></div><div class="buyer-grid"><article><span>01 / MERCHANT</span><b>Moving a live catalog</b><p>You exported hundreds of products from another platform and Shopify’s preview does not match what you expected.</p></article><article><span>02 / PARTNER</span><b>Cleaning client files repeatedly</b><p>You perform migrations and need a fast, reviewable worksheet instead of rebuilding every mapping in a spreadsheet.</p></article><article class="not-for"><span>NOT THE BUYER</span><b>Continuous inventory operations</b><p>CatalogPatch does not replace an ERP, scheduled feed, or live store-sync application.</p></article></div></section>
+
+    <section class="method-section" id="method"><header><p class="micro">ONE FILE / FOUR CONTROLLED PASSES</p><h2>Nothing reaches Shopify<br>until you understand it.</h2></header><div class="method-grid"><article><span>01</span><div><b>Detect</b><p>Read encoding, delimiter, headers, source profile, row width, and likely field meanings locally.</p></div><i>CSV → PROFILE</i></article><article><span>02</span><div><b>Map</b><p>Approve source-to-target fields. Required identity and price fields cannot disappear behind automation.</p></div><i>HEADER → FIELD</i></article><article><span>03</span><div><b>Preflight</b><p>Expose missing titles, invalid prices, duplicate SKUs, duplicate variants, unsafe image URLs, and other blockers.</p></div><i>ROW → FINDING</i></article><article><span>04</span><div><b>Export</b><p>Download the Shopify worksheet, finding register, and reusable mapping recipe. Import as drafts and inspect the platform preview.</p></div><i>REVIEW → FILE</i></article></div><a class="method-cta" href="app.html"><span>OPEN THE ACTUAL WORKBENCH</span><b>Transform a sample file →</b></a></section>
+
+    <section class="evidence-section"><div class="evidence-copy"><p class="micro">WHAT EXISTS TODAY</p><h2>A working transformer,<br>not a migration promise.</h2><p>The browser app currently parses quoted multiline CSV, detects common delimiters, maps 29 source concepts, normalizes money and weight, groups WooCommerce variations, expands image rows, and exports a classic Shopify product worksheet.</p><a href="docs.html">Inspect supported fields and boundaries →</a></div><div class="test-panel"><header><span>FIXTURE TEST REGISTER</span><b>ENGINE 0.1</b></header><dl><div><dt>WOOCOMMERCE</dt><dd><i></i>2 variants / clear</dd></div><div><dt>SQUARESPACE</dt><dd><i></i>2 variants / clear</dd></div><div><dt>SQUARE</dt><dd><i></i>2 variants / warnings</dd></div><div><dt>BROKEN FILE</dt><dd><i class="red"></i>critical issues caught</dd></div></dl><footer>These are deterministic test fixtures—not customer results.</footer></div></section>
+
+    <section class="pricing-section" id="pricing"><div class="pricing-copy"><p class="micro">COMMERCIAL PLAN / NOT ENABLED</p><h2>Charge for the repaired export,<br>not another monthly dashboard.</h2><p>Migrations are occasional. The initial commercial test should be a one-time founding licence, not a subscription users forget to cancel.</p></div><article class="price-card"><header><span>FOUNDING LICENCE</span><b>PLANNED</b></header><div class="price"><sup>$</sup><strong>29</strong><small>ONE TIME</small></div><ul><li>Unlimited local conversion runs</li><li>All current source profiles</li><li>Shopify worksheet and audit exports</li><li>Mapping recipe downloads</li><li>Founding-version updates</li></ul><button type="button" disabled>CHECKOUT NOT ENABLED</button><p>Payment stays disabled until the product is approved. The workbench is free during this beta.</p></article></section>
+
+    <section class="boundary-section"><p class="micro">PRODUCT BOUNDARY</p><h2>The last authority is always<br>Shopify’s current import preview.</h2><div><p>CatalogPatch can inspect deterministic file structure and transform known fields. It cannot verify remote image downloads, store-specific taxonomies, metafield definitions, app-owned data, or future platform behavior.</p><a class="action light" href="app.html">Run the preflight <span>→</span></a></div></section>
+  </main>
+
+  <footer class="site-footer"><div><a class="brand" href="index.html"><span class="brand-mark"><b>C</b><i></i></span><strong>CatalogPatch</strong></a><p>Local product CSV transformation for controlled Shopify migrations.</p></div><nav><span>PRODUCT</span><a href="app.html">Workbench</a><a href="docs.html">CSV reference</a><a href="#pricing">Pricing plan</a></nav><nav><span>LEGAL</span><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="https://github.com/UnderNoNameYet/CatalogPatch">Source</a></nav><aside><i></i><b>FREE BETA</b><small>Independent tool · Not affiliated with Shopify</small></aside></footer>
+  <script src="site.js"></script>
+</body>
+</html>

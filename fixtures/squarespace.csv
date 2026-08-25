@@ -1,0 +1,3 @@
+Product Type,Product URL,Title,Description,SKU,Price,Sale Price,On Sale,Stock,Weight,Option Name 1,Option Value 1,Hosted Image URLs,Visible,Tags,Categories,SEO Title,SEO Description,Vendor
+PHYSICAL,/ceramic-mug,Ceramic Mug,"<p>Wheel-thrown mug.</p>",MUG-CREAM,"$28.00","$24.00",Yes,14,360,Color,Cream,"https://example.com/mug-cream.jpg|https://example.com/mug-side.jpg",Yes,"ceramic, kitchen",Home,Ceramic Mug,Cream handmade mug,Studio North
+PHYSICAL,/ceramic-mug,Ceramic Mug,"<p>Wheel-thrown mug.</p>",MUG-SAGE,"$28.00","$24.00",Yes,6,360,Color,Sage,https://example.com/mug-sage.jpg,Yes,"ceramic, kitchen",Home,Ceramic Mug,Sage handmade mug,Studio North
