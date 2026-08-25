@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f2efe6">
+  <meta name="description" content="Convert WooCommerce, Squarespace, Square, and generic product CSV files into a reviewed Shopify-ready import file without uploading catalog data.">
+  <title>CatalogPatch Workspace — Repair a product CSV</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="progress-line" aria-hidden="true"><i id="progressLine"></i></div>
+  <header class="app-header">
+    <a class="brand" href="index.html" aria-label="CatalogPatch home"><span class="brand-mark"><b>C</b><i></i></span><strong>CatalogPatch</strong></a>
+    <div class="privacy-state"><i></i><span>LOCAL FILE SESSION</span><b>NO CATALOG UPLOAD</b></div>
+    <nav><a href="docs.html">Reference</a><a href="index.html">Product site</a></nav>
+  </header>
+
+  <main class="app-shell">
+    <aside class="process-rail">
+      <p class="rail-label">CONVERSION RUN</p>
+      <ol id="stepRail">
+        <li class="active" data-step-link="1"><button type="button"><span>01</span><b>Load file</b><small>Source catalog</small></button></li>
+        <li data-step-link="2"><button type="button" disabled><span>02</span><b>Map fields</b><small>Approve columns</small></button></li>
+        <li data-step-link="3"><button type="button" disabled><span>03</span><b>Review</b><small>Find unsafe rows</small></button></li>
+        <li data-step-link="4"><button type="button" disabled><span>04</span><b>Export</b><small>Shopify worksheet</small></button></li>
+      </ol>
+      <dl class="run-register">
+        <div><dt>FILE</dt><dd id="railFile">Not loaded</dd></div>
+        <div><dt>SOURCE</dt><dd id="railSource">Unknown</dd></div>
+        <div><dt>ROWS</dt><dd id="railRows">—</dd></div>
+        <div><dt>STATE</dt><dd id="railState">Waiting</dd></div>
+      </dl>
+      <p class="rail-note">CatalogPatch creates a worksheet. Shopify’s import preview remains the final check.</p>
+    </aside>
+
+    <section class="workspace">
+      <header class="workspace-head">
+        <div><p>PRODUCT CSV / CONTROLLED TRANSFORMATION</p><h1>Turn a foreign catalog export into a file Shopify can review.</h1></div>
+        <div class="version-card"><span>ENGINE</span><b>CP–0.1</b><small>DETERMINISTIC / BROWSER SIDE</small></div>
+      </header>
+
+      <section class="step-pane active" data-step="1" aria-labelledby="step1Title">
+        <div class="step-heading"><span>01 / SOURCE FILE</span><div><h2 id="step1Title">Bring the export.<br>Keep the store disconnected.</h2><p>Use a product CSV exported from WooCommerce, Squarespace, Square, Shopify, or another catalog system. CatalogPatch reads it inside this browser tab.</p></div></div>
+        <div class="drop-layout">
+          <label class="drop-zone" id="dropZone" for="fileInput">
+            <input id="fileInput" type="file" accept=".csv,.tsv,.txt,text/csv,text/tab-separated-values">
+            <span class="drop-index">DROP / 001</span>
+            <i class="file-glyph"><b>CSV</b></i>
+            <strong>Drop a product export here</strong>
+            <small>or choose a CSV, TSV, or text file</small>
+            <em>FILE NEVER LEAVES THIS TAB</em>
+          </label>
+          <div class="source-guide">
+            <header><span>WHAT WORKS BEST</span><b>One row per item or variant</b></header>
+            <ul>
+              <li><i>01</i><span><b>Preserve the original export</b><small>Work from a copy. Do not overwrite your source catalog.</small></span></li>
+              <li><i>02</i><span><b>Keep identifiers as text</b><small>SKUs and barcodes must not become scientific notation.</small></span></li>
+              <li><i>03</i><span><b>Expect a final preview</b><small>CatalogPatch catches deterministic problems; Shopify checks store-specific rules.</small></span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="sample-bench">
+          <span>NO FILE READY? LOAD A TEST FIXTURE</span>
+          <div><button type="button" data-sample="woocommerce">WooCommerce sample</button><button type="button" data-sample="squarespace">Squarespace sample</button><button type="button" data-sample="square">Square sample</button><button class="danger" type="button" data-sample="problem-file">Broken-file sample</button></div>
+        </div>
+      </section>
+
+      <section class="step-pane" data-step="2" aria-labelledby="step2Title">
+        <div class="step-heading"><span>02 / FIELD MAP</span><div><h2 id="step2Title">Approve every assumption<br>before conversion.</h2><p>Auto-mapping is a starting point. Required Shopify fields are called out, and every source column remains visible.</p></div></div>
+        <div class="file-readout">
+          <div><span>INPUT</span><b id="fileName">—</b><small id="fileMeta">—</small></div>
+          <div><span>DETECTED</span><b id="sourceReadout">—</b><small id="confidenceReadout">—</small></div>
+          <div><span>STRUCTURE</span><b id="structureReadout">—</b><small id="encodingReadout">—</small></div>
+        </div>
+        <div class="mapping-controls">
+          <label><span>SOURCE PROFILE</span><select id="sourceSelect"><option value="woocommerce">WooCommerce</option><option value="squarespace">Squarespace</option><option value="square">Square</option><option value="shopify">Shopify</option><option value="generic">Generic CSV</option></select></label>
+          <label><span>DEFAULT VENDOR <i>OPTIONAL</i></span><input id="defaultVendor" type="text" placeholder="Used only when vendor is empty"></label>
+          <label><span>NEW PRODUCT STATUS</span><select id="defaultStatus"><option value="draft">Draft — safest</option><option value="active">Active</option></select></label>
+          <div class="coverage"><span>MAPPING COVERAGE</span><b id="coverageValue">0 / 0</b><i><em id="coverageBar"></em></i></div>
+        </div>
+        <div class="map-table" id="mappingGrid"></div>
+        <div class="step-actions"><button class="ghost" type="button" data-go="1">← Replace file</button><button class="primary" id="convertButton" type="button">Run controlled conversion <span>→</span></button></div>
+      </section>
+
+      <section class="step-pane" data-step="3" aria-labelledby="step3Title">
+        <div class="step-heading"><span>03 / PREFLIGHT</span><div><h2 id="step3Title">See what changed.<br>Stop what is unsafe.</h2><p>Critical findings block a confident export. Warnings stay visible so the final decision remains yours.</p></div></div>
+        <div class="result-banner" id="resultBanner"><div><span id="resultSignal"></span><b id="resultState">WAITING</b></div><p id="resultMessage">Run the conversion to inspect the catalog.</p></div>
+        <div class="metric-grid">
+          <article><span>PRODUCTS</span><b id="metricProducts">0</b><small>unique handles</small></article>
+          <article><span>VARIANTS</span><b id="metricVariants">0</b><small>converted rows</small></article>
+          <article class="critical"><span>CRITICAL</span><b id="metricCritical">0</b><small>must review</small></article>
+          <article class="warning"><span>WARNINGS</span><b id="metricWarnings">0</b><small>verify manually</small></article>
+          <article><span>NORMALIZED</span><b id="metricFixed">0</b><small>deterministic fixes</small></article>
+        </div>
+        <div class="review-toolbar">
+          <div class="filter-tabs" role="tablist" aria-label="Preview rows"><button class="active" type="button" data-filter="all">All rows</button><button type="button" data-filter="critical">Critical</button><button type="button" data-filter="warning">Warnings</button><button type="button" data-filter="clean">Clean</button></div>
+          <span id="visibleCount">0 rows</span>
+        </div>
+        <div class="preview-table-wrap"><table class="preview-table"><thead><tr><th>SOURCE</th><th>PRODUCT</th><th>SKU</th><th>PRICE</th><th>STOCK</th><th>STATUS</th><th>FINDINGS</th></tr></thead><tbody id="previewBody"></tbody></table></div>
+        <section class="finding-board"><header><span>FINDING REGISTER</span><b id="findingCount">0 FINDINGS</b></header><div id="findingList"></div></section>
+        <div class="step-actions"><button class="ghost" type="button" data-go="2">← Adjust mapping</button><button class="primary" type="button" data-go="4">Prepare export <span>→</span></button></div>
+      </section>
+
+      <section class="step-pane" data-step="4" aria-labelledby="step4Title">
+        <div class="step-heading"><span>04 / EXPORT</span><div><h2 id="step4Title">Download the worksheet.<br>Import it deliberately.</h2><p>The export does not write to Shopify. Keep a backup, upload to Shopify, inspect its preview, and import as drafts first.</p></div></div>
+        <div class="export-grid">
+          <article class="export-primary">
+            <span>PRIMARY OUTPUT</span><h3>Shopify product worksheet</h3><p>Classic Shopify-compatible headers, normalized prices and weights, grouped variants, and ordered image rows.</p>
+            <dl><div><dt>PRODUCTS</dt><dd id="exportProducts">0</dd></div><div><dt>VARIANTS</dt><dd id="exportVariants">0</dd></div><div><dt>STATE</dt><dd id="exportState">—</dd></div></dl>
+            <button id="downloadShopify" class="download-button" type="button">Download Shopify CSV <b>↓</b></button>
+          </article>
+          <div class="export-secondary">
+            <button id="downloadAudit" type="button"><span>AUDIT REGISTER</span><b>Download findings CSV</b><i>↓</i></button>
+            <button id="downloadRecipe" type="button"><span>REPEATABLE SETUP</span><b>Download mapping recipe</b><i>↓</i></button>
+            <button id="copySummary" type="button"><span>HANDOFF NOTE</span><b>Copy run summary</b><i>↗</i></button>
+          </div>
+        </div>
+        <ol class="import-checklist">
+          <li><span>01</span><div><b>Back up the current store</b><p>Export the latest Shopify products before changing anything.</p></div></li>
+          <li><span>02</span><div><b>Use Shopify’s upload preview</b><p>Confirm product and variant counts, then inspect several representative items.</p></div></li>
+          <li><span>03</span><div><b>Import drafts first</b><p>Keep products unpublished until prices, options, images, and inventory are verified.</p></div></li>
+          <li><span>04</span><div><b>Resolve critical findings</b><p>Do not rely on a converted file while red findings remain unexplained.</p></div></li>
+        </ol>
+        <div class="boundary-note"><span>BOUNDARY</span><p>CatalogPatch is an independent file transformer. It is not affiliated with Shopify and cannot validate store-specific taxonomy, metafields, remote image downloads, or future platform changes.</p></div>
+        <div class="step-actions"><button class="ghost" type="button" data-go="3">← Return to findings</button><button class="primary" type="button" id="newRun">Start another conversion <span>↺</span></button></div>
+      </section>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
